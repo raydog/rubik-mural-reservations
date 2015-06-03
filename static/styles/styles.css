@@ -1,0 +1,40 @@
+* {
+  font-family: Lato, Sans-Serif;
+}
+
+img { 
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+  image-rendering: optimize-contrast;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+.piece-img {
+  width: 1em;
+  height: 1em;
+  border: solid 1px white;
+}
+
+.task {
+  display: inline-block;
+  background-color: #eee;
+  font-size: 1em;
+  width: 13em;
+  margin: 0.25em;
+  padding: 0.25em;
+}
+
+.available {
+  background-color: #afa;
+}
+
+.inprog {
+  background-color: #ff3;
+}
+
+.done {
+  background-color: #aaf;
+}

@@ -1,0 +1,71 @@
+html
+  head
+    link(href='http://fonts.googleapis.com/css?family=Lato', rel='stylesheet', type='text/css')
+    link(href='/static/styles/styles.css', rel='stylesheet', type='text/css')
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+    
+    script.
+      $(function () {
+
+        function postAction(url, task, cb) {
+          $.ajax({
+            type: "POST",
+            url:  url,
+            data: "task=" + encodeURIComponent(task),
+            success: cb
+          });
+        }
+
+        $("li.task.available").click(function () {
+          var $this = $(this);
+          var task = $this.data('task');
+          
+          postAction("/take", task, function (data) {
+            location.reload();
+          });
+        });
+
+        $("li.task.inprog").click(function () {
+          var $this = $(this);
+          var task = $this.data('task');
+          
+          postAction("/complete", task, function (data) {
+            location.reload();
+          });
+        });
+      });
+
+  body
+
+    mixin renderOverview(allTasks)
+      - for (var y=1; y<=10; y++) {
+        - for (var x=1; x<=20; x++) {
+          - var name = "cube_" + x + "_" + y;
+          - var klass = allTasks[name].split(":")[0];
+          img.piece-img(src="/static/img/" + name + ".png", class=klass)
+        - }
+        br
+      - }
+
+    mixin renderTasks(taskList)
+      ul
+        each name in Object.keys(taskList)
+          mixin renderTask(name, taskList[name])
+    
+    mixin renderTask(name, state)
+      li.task(class=state.split(":")[0], data-task=name)
+        img.piece-img(src="/static/img/" + name + ".png") 
+        span= " " + name + " (" + state + ")"
+
+    div
+      span Logged in as 
+      strong= name
+    
+    center
+      mixin renderOverview(allTasks)
+
+    h3 My Cubes:
+    mixin renderTasks(userTasks)
+
+    h3 All Cubes:
+    mixin renderTasks(allTasks)
